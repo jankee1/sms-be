@@ -1,5 +1,5 @@
 import { MessageRecord } from './../records/message.record';
-import { MessageInterface, GetMessage } from './../types/message.entity';
+import { GetMessage } from './../types/message.entity';
 import Router, { Request, Response } from 'express'
 
 export const messageRouter = Router()
@@ -53,11 +53,4 @@ export const messageRouter = Router()
                     secretKey: data.secretKey
                 })
         }
-    })
-    .delete('/:sender/:secretKey', (req:Request, res:Response) => {
-        res
-            .status(200)
-            .json({
-                message: 'delete secret message'
-            })
     })

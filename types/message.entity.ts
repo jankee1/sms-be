@@ -15,5 +15,12 @@ export type GetMessage = {
 export type OneMessageFromDB = {
     sender: string;
     secretKey: string;
+    ivCrypto?: string;
+    keyCrypto?: string;
+    body: string;
+}
+export type DecryptedMessage = {
+    ivCrypto: string; 
+    keyCrypto: string;
     body: string;
 }
