@@ -1,5 +1,5 @@
 import {pool} from "../utils/db";
-import {FieldPacket} from "mysql2";
+import {FieldPacket, ResultSetHeader} from "mysql2";
 import {v4 as uuid} from 'uuid';
 import { ValidationError } from "../utils/errors";
 import {MessageInterface} from '../types/message.entity'
@@ -37,14 +37,26 @@ export class MessageRecord implements MessageInterface {
         if(!this.secretKey)
             this.secretKey = secretKeyGenerator();
 
-        await pool.execute("INSERT INTO `messages` (`id`,`secretKey`,`sender`,`body`,`deletedAfterRead`) VALUES(:id, :secretKey, :sender, :body, :deletedAfterRead)", {
-            id: this.id,
-            secretKey: this.secretKey,
-            sender: this.sender,
-            body: this.body,
-            deletedAfterRead:this.deletedAfterRead
-        });
-        return this.id;
+        let isSucces: boolean = false;
+
+        try {
+            const [{affectedRows}] = await pool.execute("INSERT INTO `messages` (`id`,`secretKey`,`sender`,`body`,`deletedAfterRead`) VALUES(:id, :secretKey, :sender, :body, :deletedAfterRead)", {
+                id: this.id,
+                secretKey: this.secretKey,
+                sender: this.sender,
+                body: this.body,
+                deletedAfterRead:this.deletedAfterRead
+            }) as ResultSetHeader[];
+            if(affectedRows){
+                return {
+                    isSucces: true,
+                    secretKey: this.secretKey
+                };
+            }
+        } catch(e) {
+            console.error("Insert error: ", e)
+            return {isSucces}
+        }
     }
 
     getOne() {

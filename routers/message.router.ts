@@ -15,22 +15,26 @@ export const messageRouter = Router()
                 ...msg
             })
     })
-    .post('/', (req:Request, res:Response) => {
+    .post('/', async (req:Request, res:Response) => {
         const msg = new MessageRecord(req.body);
 
-        try {
-            msg.insert();
-        } catch(e) {
-            console.error("Insert error: ", e) // TODO zrobic komunikat na stronie
-        }
+        const data = await msg.insert();
 
-        console.log(msg);
-        res
-            .status(200)
-            .json({
-                message: 'send secret message',
-                ...msg
-            })
+        if(!data.isSucces) {
+            res
+                .status(500)
+                .json({
+                    isSukcess: false,
+                    message: 'Something went wrong',
+                })
+        } else {
+            res
+                .status(200)
+                .json({
+                    isSukcess: true,
+                    secretKey: data.secretKey
+                })
+        }
     })
     .delete('/:sender/:secretKey', (req:Request, res:Response) => {
         res

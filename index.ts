@@ -4,6 +4,7 @@ import {config} from './config/config';
 
 import {homeRouter} from './routers/home.router';
 import {messageRouter} from './routers/message.router';
+import {handleErrors} from './utils/errors'
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(json());
 
 app.use('/', homeRouter)
 app.use('/message', messageRouter)
+
+app.use(handleErrors)
 
 
 app.listen(config.PORT_SERVER, () => {
