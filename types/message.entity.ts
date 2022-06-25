@@ -1,3 +1,4 @@
+
 export interface MessageInterface {
     id: string;
     sender: string;
@@ -9,5 +10,10 @@ export interface MessageInterface {
 export type GetMessage = {
     sender: string;
     secretKey: string;
-    
+}
+
+export type OneMessageFromDB = {
+    sender: string;
+    secretKey: string;
+    body: string;
 }

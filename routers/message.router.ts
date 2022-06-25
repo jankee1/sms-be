@@ -3,17 +3,35 @@ import { MessageInterface, GetMessage } from './../types/message.entity';
 import Router, { Request, Response } from 'express'
 
 export const messageRouter = Router()
-    .get('/:sender?/:secretKey?', (req:Request, res:Response) => {
-        const msg = req.params as GetMessage;
+    .get('/:sender?/:secretKey?', async (req:Request, res:Response) => {
+        if(typeof req.params.sender === 'undefined' || typeof req.params.secretKey === 'undefined') {
+            res
+                .status(401)
+                .json({
+                    isSucces: false,
+                    errMsg: 'Sender and SecretKey fields cannot be empty',
+                })
+        } else {
+            const data: GetMessage = {
+                sender: req.params.sender,
+                secretKey: req.params.secretKey
+            }
+            const msg =  await MessageRecord.getOne(data);
 
+            if(!msg) {
+                res
+                    .status(401)
+                    .json({
+                        isSucces: false,
+                        errMsg: 'No secret message has been found for the given cirterias',
+                    })
+            } else {
+                res
+                    .status(200)
+                    .json(msg)
+            }
+        }
 
-        console.log(msg);
-        res
-            .status(200)
-            .json({
-                message: 'show secret message',
-                ...msg
-            })
     })
     .post('/', async (req:Request, res:Response) => {
         const msg = new MessageRecord(req.body);
@@ -25,7 +43,7 @@ export const messageRouter = Router()
                 .status(500)
                 .json({
                     isSukcess: false,
-                    message: 'Something went wrong',
+                    errMsg: 'Something went wrong',
                 })
         } else {
             res

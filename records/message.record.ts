@@ -2,9 +2,10 @@ import {pool} from "../utils/db";
 import {FieldPacket, ResultSetHeader} from "mysql2";
 import {v4 as uuid} from 'uuid';
 import { ValidationError } from "../utils/errors";
-import {MessageInterface} from '../types/message.entity'
+import {MessageInterface, GetMessage, OneMessageFromDB} from '../types/message.entity'
 import {secretKeyGenerator} from '../auth/secretKeyGenerator';
 
+type GetMessageResult = [OneMessageFromDB[], FieldPacket[]]
 
 export class MessageRecord implements MessageInterface {
 
@@ -59,16 +60,15 @@ export class MessageRecord implements MessageInterface {
         }
     }
 
-    getOne() {
-
+    static async getOne(getMessage: GetMessage): Promise<OneMessageFromDB | null> {
+        const [data] = await pool.execute("SELECT `sender`,`body` FROM `messages` WHERE sender = :sender AND secretKey = :secretKey", {
+            sender: getMessage.sender,
+            secretKey: getMessage.secretKey
+        }) as GetMessageResult;
+        return data.length === 0 ? null : data[0];
     }
 
     delete() {
-
+        console.log("Here the messagewill be deleted");
     }
-
-    update() {
-
-    }
-
 }
