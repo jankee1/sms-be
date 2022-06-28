@@ -1,41 +1,56 @@
 import { MessageRecord } from './../records/message.record';
-import { MessageInterface, GetMessage } from './../types/message.entity';
+import { GetMessage } from './../types/message.entity';
 import Router, { Request, Response } from 'express'
 
 export const messageRouter = Router()
-    .get('/:sender?/:secretKey?', (req:Request, res:Response) => {
-        const msg = req.params as GetMessage;
+    .get('/:sender?/:secretKey?', async (req:Request, res:Response) => {
+        if(typeof req.params.sender === 'undefined' || typeof req.params.secretKey === 'undefined') {
+            res
+                .status(401)
+                .json({
+                    isSucces: false,
+                    errMsg: 'Sender and SecretKey fields cannot be empty',
+                })
+        } else {
+            const data: GetMessage = {
+                sender: req.params.sender,
+                secretKey: req.params.secretKey
+            }
+            const msg =  await MessageRecord.getOne(data);
 
-
-        console.log(msg);
-        res
-            .status(200)
-            .json({
-                message: 'show secret message',
-                ...msg
-            })
-    })
-    .post('/', (req:Request, res:Response) => {
-        const msg = new MessageRecord(req.body);
-
-        try {
-            msg.insert();
-        } catch(e) {
-            console.error("Insert error: ", e) // TODO zrobic komunikat na stronie
+            if(!msg) {
+                res
+                    .status(401)
+                    .json({
+                        isSucces: false,
+                        errMsg: 'No secret message has been found for the given cirterias',
+                    })
+            } else {
+                res
+                    .status(200)
+                    .json(msg)
+            }
         }
 
-        console.log(msg);
-        res
-            .status(200)
-            .json({
-                message: 'send secret message',
-                ...msg
-            })
     })
-    .delete('/:sender/:secretKey', (req:Request, res:Response) => {
-        res
-            .status(200)
-            .json({
-                message: 'delete secret message'
-            })
+    .post('/', async (req:Request, res:Response) => {
+        const msg = new MessageRecord(req.body);
+
+        const data = await msg.insert();
+
+        if(!data.isSucces) {
+            res
+                .status(500)
+                .json({
+                    isSukcess: false,
+                    errMsg: 'Something went wrong',
+                })
+        } else {
+            res
+                .status(200)
+                .json({
+                    isSukcess: true,
+                    secretKey: data.secretKey
+                })
+        }
     })
