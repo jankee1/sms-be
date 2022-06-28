@@ -2,26 +2,6 @@ import {DecryptedMessage} from '../types/message.entity';
 //Checking the crypto module
 const crypto = require('crypto');
 const algorithm = 'aes-256-cbc';
-// const key = crypto.randomBytes(32);
-// const iv = crypto.randomBytes(16);
-
-// //Encrypting text
-// export const encryptMessage = (text: string): DecryptedMessage => {
-//     const cipher = crypto.createCipheriv(algorithm, Buffer.from(key), iv);
-//     let encrypted = cipher.update(text);
-//     encrypted = Buffer.concat([encrypted, cipher.final()]);
-//     return { iv: iv.toString('hex'), body: encrypted.toString('hex') };
-// }
-
-// // Decrypting text
-// export const decryptMessage = (text: DecryptedMessage): string => {
-//     const iv = Buffer.from(text.iv, 'hex');
-//     const encryptedText = Buffer.from(text.body, 'hex');
-//     const decipher = crypto.createDecipheriv(algorithm, Buffer.from(key), iv);
-//     let decrypted = decipher.update(encryptedText);
-//     decrypted = Buffer.concat([decrypted, decipher.final()]);
-//     return decrypted.toString();
-// }
 
 //Encrypting text
 export const encryptMessage = async (body: string): Promise<DecryptedMessage> => {
