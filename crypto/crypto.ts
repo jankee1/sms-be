@@ -10,7 +10,6 @@ export const encryptMessage = async (body: string): Promise<DecryptedMessage> =>
     const cipher = crypto.createCipheriv(algorithm, Buffer.from(key), iv);
     let encrypted = cipher.update(body, 'utf8', 'hex');
     encrypted += cipher.final('hex');
-    console.log(key);
     return { 
         ivCrypto: iv.toString('hex'), 
         keyCrypto: key.toString('hex'), 

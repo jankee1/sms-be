@@ -20,7 +20,7 @@ app.use('/message', messageRouter)
 app.use(handleErrors)
 
 
-app.listen(config.PORT_SERVER, () => {
+app.listen(config.PORT_SERVER, '0.0.0.0', () => {
     console.log(`PORT_SERVER ${config.PORT_SERVER}`);
     console.log(`PORT_CLIENT ${config.PORT_CLIENT}`);
 });

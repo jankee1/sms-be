@@ -36,6 +36,7 @@ export const messageRouter = Router()
     .post('/', async (req:Request, res:Response) => {
         const msg = new MessageRecord(req.body);
 
+
         const data = await msg.insert();
 
         if(!data.isSucces) {
@@ -50,7 +51,8 @@ export const messageRouter = Router()
                 .status(200)
                 .json({
                     isSukcess: true,
-                    secretKey: data.secretKey
+                    secretKey: data.secretKey,
+                    sender: data.sender
                 })
         }
     })
