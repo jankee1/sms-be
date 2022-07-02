@@ -34,10 +34,12 @@ export const messageRouter = Router()
 
     })
     .post('/', async (req:Request, res:Response) => {
+
         const msg = new MessageRecord(req.body);
 
-
         const data = await msg.insert();
+
+        console.log(data);
 
         if(!data.isSucces) {
             res

@@ -61,8 +61,8 @@ export class MessageRecord implements MessageInterface {
 
             if(affectedRows){
 
-                if(this.toBeDeletedAfter24h)
-                    this.deleteAfter24h(this.id);
+                // if(this.toBeDeletedAfter24h)
+                //     this.deleteAfter24h(this.id);
 
                 return {
                     isSucces: true,
@@ -88,7 +88,7 @@ export class MessageRecord implements MessageInterface {
 
         const msgBody = await decryptMessage({ivCrypto: msg.ivCrypto, body: msg.body, keyCrypto: msg.keyCrypto});
         
-        this.deleteNow(msg.id);
+        // this.deleteNow(msg.id);
 
         return {
             sender: msg.sender,
