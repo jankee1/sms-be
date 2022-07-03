@@ -39,8 +39,6 @@ export const messageRouter = Router()
 
         const data = await msg.insert();
 
-        console.log(data);
-
         if(!data.isSucces) {
             res
                 .status(500)

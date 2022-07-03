@@ -108,7 +108,7 @@ export class MessageRecord implements MessageInterface {
             catch(e) {
                 console.error('deleteAfter24h Error: ', e)
             }
-        }, 1000 * 30)
+        }, 1000 * 60 * 60 * 24)
         
     }
 
