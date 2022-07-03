@@ -4,7 +4,7 @@ export interface MessageInterface {
     sender: string;
     secretKey?: string;
     body: string;
-    toBeDeletedAfterRead: boolean;
+    toBeDeletedAfter24h: boolean;
     createdAt?: string;
 }
 export type GetMessage = {
@@ -13,12 +13,13 @@ export type GetMessage = {
 }
 
 export type OneMessageFromDB = {
+    id?: string;
     sender: string;
     secretKey: string;
     ivCrypto?: string;
     keyCrypto?: string;
     body: string;
-    createdAt: Date | string;
+    createdAt: string;
 }
 export type DecryptedMessage = {
     ivCrypto: string; 
