@@ -1,4 +1,5 @@
 import express, {json} from 'express';
+import rateLimit from 'express-rate-limit'
 import cors from 'cors';
 import {config} from './config/config';
 
@@ -16,6 +17,11 @@ app.use(json());
 
 app.use('/', homeRouter)
 app.use('/message', messageRouter)
+
+app.use(rateLimit({
+    windowMs: 5 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+}))
 
 app.use(handleErrors)
 
