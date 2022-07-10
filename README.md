@@ -5,6 +5,7 @@ Front end repository can be found under the following link https://github.com/ja
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
+* [Database structure](#database-structure)
 * [Live demo](#Demo)
 
 ### General info
@@ -24,6 +25,16 @@ Project is created with:
 * UUID	
 * Express rate limiter
 
+
+### Database structure
+
+* id (primary key), varchar (36)
+* secretKey (unique key), varchar (10)
+* sender, varchar (30)
+* body, varchar (1000)
+* ivCrypto, varchar (32)
+* keyCrypto, varchar (64)
+* createdAt, datetime (default: current_timestamp())
 
 ### Demo
 The application is available under the below link:
