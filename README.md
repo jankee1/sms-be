@@ -8,7 +8,10 @@ Front end repository can be found under the following link https://github.com/ja
 * [Live demo](#Demo)
 
 ### General info
-This project is a simple application which allows for sending message and share it with anyone. Messages are encrypted and stored in database. Read message is automatically removed (all messages can be read only once). For increased security a user can select that the message will be removed after 24h regardless wheter it would be read or not.
+This project is a simple application which allows for sending message and share it with anyone. * Messages are encrypted and stored in database. 
+* Read message is automatically removed (all messages can be read only once).
+* A user can select that the message will be removed after 24h regardless wheter it would be read or not.
+* Sender and message fields are validated (only letters and digits are allowed)
 	
 ### Technologies
 Project is created with:
