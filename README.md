@@ -1,5 +1,3 @@
-#SMS
-
 ## SMS-BE
 This repository contains back end files for SMS application.
 Front end repository can be found under the following link https://github.com/jankee1/sms-fe
